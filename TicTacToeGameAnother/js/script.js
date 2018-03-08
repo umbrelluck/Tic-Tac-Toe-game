@@ -1,3 +1,7 @@
+
+//when comes to winner chekking and background coloring, may paint in another color
+//and I don`t know how to fix it
+
 $(function() {
   chooseOponent();
 });
