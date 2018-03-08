@@ -116,7 +116,7 @@ function checkTie() {
   return false;
 }
 
-//everything OK go to gameOver
+//everything OK go to gameOver instead
 function checkWin(board, player) {
   let plays = board.reduce((a, e, i) => (e === player ? a.concat(i) : a), []);
   let gameWon = null;
