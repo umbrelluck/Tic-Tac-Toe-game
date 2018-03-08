@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Tic Tac Toe</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+</head>
+
+<body>
+
+    <table>
+        <tr>
+            <td class="cell" id="0"></td>
+            <td class="cell" id="1"></td>
+            <td class="cell" id="2"></td>
+        </tr>
+        <tr>
+            <td class="cell" id="3"></td>
+            <td class="cell" id="4"></td>
+            <td class="cell" id="5"></td>
+        </tr>
+        <tr>
+            <td class="cell" id="6"></td>
+            <td class="cell" id="7"></td>
+            <td class="cell" id="8"></td>
+        </tr>
+    </table>
+    <div class="endgame">
+        <div class="text"></div>
+        <div class="settings">
+                <button onclick="startGame()">Replay</button>
+                <button class="lvl" onclick="levelSelect()">Change level</button>
+                <button onclick="chooseOponent()">Change oponent</button>
+        </div>
+    </div>
+    <div class="start">
+        <div class="oponentSelect">
+           <div class="wo">Whom are you going to play with?</div>
+            <div>
+                <button class="ai">Computer AI</button>
+                <button class="hum">Human</button>
+            </div>
+        </div>
+        <div class="levelSelect">
+                <div class="sl">Select your level</div>
+                <div>
+                    <button class="easy">Easy</button>
+                    <button class="hard">Hard</button>
+                    <button class="insane">Insane</button>
+                </div>
+        </div>
+    </div>
+    <script src="js/jquery.js"></script>
+    <script src="js/defs.js"></script>
+    <script src="js/funCompEasy.js"></script>
+    <script src="js/funCompHard.js"></script>
+    <script src="js/funCompIns.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>
