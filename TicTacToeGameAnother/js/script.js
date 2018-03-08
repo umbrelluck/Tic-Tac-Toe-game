@@ -1,4 +1,3 @@
-
 //when comes to winner chekking and background coloring, may paint in another color
 //and I don`t know how to fix it
 
@@ -6,57 +5,57 @@ $(function() {
   chooseOponent();
 });
 
-function chooseOponent(){
-$(".endgame").css("display","none");
-$(".oponentSelect").css("display","block");
-$("table").css("display","none");
-$(".ai").click(function(){
-  oponent="ai";
-  opClick();
-});
-$(".hum").click(function(){
-  oponent="hum";
-  opClick();
-});
+function chooseOponent() {
+  $(".endgame").css("display", "none");
+  $(".oponentSelect").css("display", "block");
+  $("table").css("display", "none");
+  $(".ai").click(function() {
+    oponent = "ai";
+    opClick();
+  });
+  $(".hum").click(function() {
+    oponent = "hum";
+    opClick();
+  });
 }
 
-function opClick(){
-  if (oponent=="ai"){
-    $(".oponentSelect").css("display","none");
+function opClick() {
+  if (oponent == "ai") {
+    $(".oponentSelect").css("display", "none");
     levelSelect();
   }
-  if (oponent=="hum"){
-    $(".oponentSelect").css("display","none");
+  if (oponent == "hum") {
+    $(".oponentSelect").css("display", "none");
     startGame();
-    level=null;
-}
+    level = null;
+  }
 }
 
-function levelSelect(){
-  $(".levelSelect").css("display","block");
-  $(".endgame").css("display","none");
-  $("table").css("display","none");
-  $(".easy").click(function(){
-   level="easy";
-   console.log(level);
-   startGame();
+function levelSelect() {
+  $(".levelSelect").css("display", "block");
+  $(".endgame").css("display", "none");
+  $("table").css("display", "none");
+  $(".easy").click(function() {
+    level = "easy";
+    console.log(level);
+    startGame();
   });
-  $(".hard").click(function(){
-    level="hard";
+  $(".hard").click(function() {
+    level = "hard";
     console.log(level);
     startGame();
-   });
-   $(".insane").click(function(){
-    level="insane";
+  });
+  $(".insane").click(function() {
+    level = "insane";
     console.log(level);
     startGame();
-   });
+  });
 }
 
 function startGame() {
-  who=0;
-  $(".levelSelect").css("display","none");
-  $("table").css("display","block");
+  who = 0;
+  $(".levelSelect").css("display", "none");
+  $("table").css("display", "block");
   $(".endgame").css("display", "none");
   origBoard = Array.from(Array(borderSize).keys());
   for (var i = 0; i <= cells.length; i++) {
@@ -69,20 +68,21 @@ function startGame() {
 function turnClick(elem) {
   var id = $(this).attr("id");
   if (typeof origBoard[id] == "number") {
-    if(oponent=="ai"){
-    turn(id, humPlayer);
+    if (oponent == "ai") {
+      turn(id, humPlayer);
       if (!checkTie()) {
-        if(level=="easy") turn(bestSpotEasy(), aiPlayer);
-        if(level=="hard") { turn(bestSpotHard(), aiPlayer)};
-        if(level=="insane") turn(bestSpotIns(), aiPlayer);
+        if (level == "easy") turn(bestSpotEasy(), aiPlayer);
+        if (level == "hard") {
+          turn(bestSpotHard(), aiPlayer);
+        }
+        if (level == "insane") turn(bestSpotIns(), aiPlayer);
       }
-    } else if(oponent=="hum"){
+    } else if (oponent == "hum") {
       who++;
       console.log(who);
-      if(who%2==1)
-      turn(id, humPlayer);
-      else  turn(id, anPlayer);
-      checkTie()
+      if (who % 2 == 1) turn(id, humPlayer);
+      else turn(id, anPlayer);
+      checkTie();
     }
   }
 }
@@ -97,12 +97,18 @@ function turn(id, player) {
 
 function checkTie() {
   if (emptySquares(origBoard).length == 0) {
-    for (var i=0; i < cells.length; i++) {
+    for (var i = 0; i < cells.length; i++) {
       $("#" + i).css("background-color", "#FFFF00");
       $(cells[i]).off("click");
     }
-    if( (!(checkWin(origBoard, humPlayer) || checkWin(origBoard, aiPlayer)||checkWin(origBoard, anPlayer)))
-    ||(checkWin(origBoard, humPlayer)&&checkWin(origBoard, aiPlayer))){
+    if (
+      !(
+        checkWin(origBoard, humPlayer) ||
+        checkWin(origBoard, aiPlayer) ||
+        checkWin(origBoard, anPlayer)
+      ) ||
+      (checkWin(origBoard, humPlayer) && checkWin(origBoard, aiPlayer))
+    ) {
       declareWinner("Tie game!");
       return true;
     }
@@ -110,6 +116,7 @@ function checkTie() {
   return false;
 }
 
+//everything OK go to gameOver
 function checkWin(board, player) {
   let plays = board.reduce((a, e, i) => (e === player ? a.concat(i) : a), []);
   let gameWon = null;
@@ -129,9 +136,11 @@ function emptySquares(board) {
   return board.filter(s => typeof s == "number");
 }
 
+//here problems in gameOver with background color on Tie
+// appearing not right
 function gameOver(gameWon) {
   for (let index of winCombos[gameWon.index]) {
-    if(oponent=="ai"){
+    if (oponent == "ai") {
       let color = gameWon.player == humPlayer ? "green" : "red";
       $("#" + index).css("background-color", color);
     } else $("#" + index).css("background-color", "green");
@@ -139,15 +148,14 @@ function gameOver(gameWon) {
   for (var i = 0; i < cells.length; i++) {
     $(cells[i]).off("click");
   }
-  if (oponent=="ai")
-  declareWinner(gameWon.player == humPlayer ? "You win!" : "You loose!");
+  if (oponent == "ai")
+    declareWinner(gameWon.player == humPlayer ? "You win!" : "You loose!");
   else declareWinner(gameWon.player == humPlayer ? "O win!" : "X win!");
 }
 
 function declareWinner(who) {
   $(".endgame").css("display", "block");
-  $(".lvl").css("display","inline-block");
-  if(oponent=="hum")
-  $(".lvl").css("display","none");
+  $(".lvl").css("display", "inline-block");
+  if (oponent == "hum") $(".lvl").css("display", "none");
   $(".endgame .text").html(who);
 }
